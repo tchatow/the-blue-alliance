@@ -75,17 +75,12 @@ class CacheableHandler(webapp2.RequestHandler):
             if self._has_been_modified_since(self._last_modified):
                 self.response.out.write(self._add_admin_bar(rendered))
                 self._write_cache(self.response)
-                return
-            else:
-                return None
         else:
             self.response.headers.update(cached_response.headers)
             del self.response.headers['Content-Length']  # Content-Length gets set automatically
             if self._has_been_modified_since(self._last_modified):
                 self.response.out.write(self._add_admin_bar(cached_response.body))
-                return
-            else:
-                return None
+        return self.response.body
 
     def _has_been_modified_since(self, datetime):
         if datetime is None:

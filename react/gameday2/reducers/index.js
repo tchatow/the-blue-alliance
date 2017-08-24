@@ -6,6 +6,7 @@ import visibility from './visibility'
 import videoGrid from './videoGrid'
 import chats from './chats'
 import favoriteTeams from './favorites'
+import TBAAPIv3Firebase from '../tba_apiv3_firebase'
 
 // Firebase
 const firebaseApp = Firebase.initializeApp({
@@ -17,6 +18,15 @@ const ref = firebaseApp.database().ref()
 export const firedux = new Firedux({
   ref,
 })
+
+let fb = new TBAAPIv3Firebase(firebaseApp)
+let ref2 = fb.getRef('v3/team/frc1');
+console.log(ref2);
+ref2.onUpdate((result) => {
+  console.log(result)
+  console.log("!!!!!!!!!!!")
+})
+
 
 const gamedayReducer = combineReducers({
   firedux: firedux.reducer(),

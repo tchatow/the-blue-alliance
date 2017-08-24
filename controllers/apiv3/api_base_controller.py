@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import random
@@ -76,6 +77,11 @@ class ApiBaseController(CacheableHandler):
             logging.exception(exception)
             self.response.set_status(500)
 
+    def _compute_hash(self, content):
+        m = hashlib.md5()
+        m.update(content)
+        return m.hexdigest()
+
     def get(self, *args, **kw):
         self._validate_tba_auth_key()
         self._errors = ValidationHelper.validate_request(self)
@@ -83,9 +89,15 @@ class ApiBaseController(CacheableHandler):
             self.abort(404)
 
         self._track_call(*args, **kw)
-        super(ApiBaseController, self).get(*args, **kw)
+        content = super(ApiBaseController, self).get(*args, **kw)
         self.response.headers['X-TBA-Version'] = '{}'.format(self.API_VERSION)
         self.response.headers['Vary'] = 'Accept-Encoding'
+
+        # Increase cache duration if hash is correct
+        h = self.request.get('hash')
+        logging.info(self._compute_hash(content))
+        if h and h == self._compute_hash(content):
+            self._set_cache_header_length(3600)
 
     def post(self, *args, **kw):
         self._validate_tba_auth_key()
