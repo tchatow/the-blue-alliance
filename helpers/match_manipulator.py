@@ -156,7 +156,8 @@ class MatchManipulator(ManipulatorBase):
 
         auto_union_attrs = [
             "tba_videos",
-            "youtube_videos"
+            "youtube_videos",
+            "internet_archive_videos"
         ]
 
         old_match._updated_attrs = []

@@ -13,6 +13,7 @@ class MediaType(object):
     INSTAGRAM_IMAGE = 10
     EXTERNAL_LINK = 11
     AVATAR = 12
+    INTERNET_ARCHIVE_VIDEO = 13
 
     type_names = {
         YOUTUBE_VIDEO: 'YouTube Video',
@@ -28,6 +29,7 @@ class MediaType(object):
         INSTAGRAM_IMAGE: 'Instagram Image',
         EXTERNAL_LINK: 'External Link',
         AVATAR: 'Avatar',
+        INTERNET_ARCHIVE_VIDEO: 'Internet Archive Video'
     }
 
     image_types = [

@@ -70,6 +70,15 @@
               </span>
             </div>
           </form>
+          <form action="/suggest/match/video" method="post" id="suggest_match_video">
+            <input name="match_key" type="hidden" value="{{match.key.id()}}" />
+            <div class="input-group">
+              <input class="form-control" type="text" name="internet_archive_url" placeholder="https://archive.org/details/frcsvr2006sf" value="" />
+              <span class="input-group-btn">
+                <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-plus-sign"></span> Add Video</button>
+              </span>
+            </div>
+          </form>
           <br>
           <p><a class="btn btn-primary" href="https://www.youtube.com/results?search_query={{match.verbose_name|urlencode}}+{{event.year}}+{{event.name|urlencode}}" target="_blank"><span class="glyphicon glyphicon-search"></span> Search YouTube :: {{match.verbose_name}} - {{event.year}} {{event.name}}</a></p>
         </div>

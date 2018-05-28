@@ -51,7 +51,11 @@
       {% for youtube_video in match.youtube_videos_formatted %}
         {% include "video_partials/youtube_video_player.html" %}
       {% endfor %}
-      {% if not match.tba_video and not match.youtube_videos %}
+      {% for internet_archive_video in match.internet_archive_videos_formatted %}
+        {% include "video_partials/internet_archive_video_player.html" %}
+      {% endfor %}
+
+      {% if not match.tba_video and not match.youtube_videos and not match.internet_archive_videos %}
         <p>We don't know about any videos for this match yet. 🙁</p>
         <p>Help others out by searching YouTube and adding videos!</p>
       {% endif %}

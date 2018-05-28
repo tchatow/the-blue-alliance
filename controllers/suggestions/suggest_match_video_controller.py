@@ -4,6 +4,7 @@ import os
 from controllers.base_controller import LoggedInHandler
 from helpers.suggestions.suggestion_creator import SuggestionCreator
 from helpers.youtube_video_helper import YouTubeVideoHelper
+from helpers.internet_archive_video_helper import InternetArchiveVideoHelper
 from models.event import Event
 from models.match import Match
 from models.suggestion import Suggestion
@@ -42,10 +43,21 @@ class SuggestMatchVideoController(LoggedInHandler):
         self._require_registration()
 
         match_key = self.request.get("match_key")
-        youtube_url = self.request.get("youtube_url")
-        youtube_id = YouTubeVideoHelper.parse_id_from_url(youtube_url)
 
-        status = SuggestionCreator.createMatchVideoYouTubeSuggestion(self.user_bundle.account.key, youtube_id, match_key)
+        status = None
+
+        if self.request.get("youtube_url"):
+            youtube_url = self.request.get("youtube_url")
+            youtube_id = YouTubeVideoHelper.parse_id_from_url(youtube_url)
+
+            status = SuggestionCreator.createMatchVideoYouTubeSuggestion(self.user_bundle.account.key, youtube_id, match_key)
+        elif self.request.get("internet_archive_url"):
+            internet_archive_url = self.request.get("internet_archive_url")
+            internet_archive_id = InternetArchiveVideoHelper.parse_id_from_url(internet_archive_url)
+
+            status = SuggestionCreator.createMatchVideoInternetArchiveSuggestion(self.user_bundle.account.key, internet_archive_id, match_key)
+        else:
+            status = 'bad_url'
 
         self.redirect('/suggest/match/video?match_key={}&status={}'.format(match_key, status))
 

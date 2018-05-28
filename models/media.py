@@ -29,6 +29,7 @@ class Media(ndb.Model):
         MediaType.INSTAGRAM_IMAGE: 'instagram-image',
         MediaType.EXTERNAL_LINK: 'external-link',
         MediaType.AVATAR: 'avatar',
+        MediaType.INTERNET_ARCHIVE_VIDEO: 'internet-archive'
     }
 
     REFERENCE_MAP = {
@@ -122,6 +123,14 @@ class Media(ndb.Model):
     @property
     def youtube_url_link(self):
         return 'https://youtu.be/{}'.format(self.foreign_key)
+
+    @property
+    def internet_archive_url(self):
+        return 'https://archive.org/embed/{}'.format(self.foreign_key)
+
+    @property
+    def internet_archive_url_link(self):
+        return 'https://archive.org/details/{}'.format(self.foreign_key)
 
     @property
     def imgur_url(self):

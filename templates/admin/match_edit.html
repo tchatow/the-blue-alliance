@@ -51,9 +51,14 @@
         <tr>
             <td>TBA Videos</td>
             <td><textarea class="form-control" type="text" name="tba_videos" rows="6" cols="60">[{% for video in match.tba_videos %}"{{video}}"{% if not forloop.last %},{% endif %}{% endfor %}]</textarea></td>
-        </tr>        <tr>
+        </tr>
+        <tr>
             <td>YouTube Videos</td>
             <td><textarea class="form-control" type="text" name="youtube_videos" rows="6" cols="60">[{% for video in match.youtube_videos %}"{{video}}"{% if not forloop.last %},{% endif %}{% endfor %}]</textarea></td>
+        </tr>
+        <tr>
+            <td>Internet Archive Videos</td>
+            <td><textarea class="form-control" type="text" name="internet_archive_videos" rows="6" cols="60">[{% for video in match.internet_archive_videos %}"{{video}}"{% if not forloop.last %},{% endif %}{% endfor %}]</textarea></td>
         </tr>
     </table>
 

@@ -37,7 +37,7 @@ class SuggestMatchVideoReviewController(SuggestionsReviewBaseController):
         self.template_values.update({
             "suggestions_and_events": zip(suggestions, events),
         })
-
+        print zip(suggestions, events)
         self.response.out.write(jinja2_engine.render('suggestions/suggest_match_video_review_list.html', self.template_values))
 
     def post(self):

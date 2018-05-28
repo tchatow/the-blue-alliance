@@ -155,6 +155,7 @@ class AdminMatchEdit(LoggedInHandler):
         alliances = json.loads(alliances_json)
         tba_videos = json.loads(self.request.get("tba_videos")) if self.request.get("tba_videos") else []
         youtube_videos = json.loads(self.request.get("youtube_videos")) if self.request.get("youtube_videos") else []
+        internet_archive_videos = json.loads(self.request.get("internet_archive_videos")) if self.request.get("internet_archive_videos") else []
         team_key_names = list()
 
         for alliance in alliances:
@@ -169,7 +170,8 @@ class AdminMatchEdit(LoggedInHandler):
             team_key_names=team_key_names,
             alliances_json=alliances_json,
             tba_videos=tba_videos,
-            youtube_videos=youtube_videos
+            youtube_videos=youtube_videos,
+            internet_archive_videos = internet_archive_videos,
             # no_auto_update = str(self.request.get("no_auto_update")).lower() == "true", #TODO
         )
         MatchManipulator.createOrUpdate(match, auto_union=False)

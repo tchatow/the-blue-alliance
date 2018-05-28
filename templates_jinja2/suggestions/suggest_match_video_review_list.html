@@ -38,7 +38,11 @@
                     </div>
                     <div class="col-xs-7 fitvids">
                         <p><a href="/match/{{ suggestion.target_key }}" target="_blank"><strong>{{ suggestion.target_key }}</strong></a> @ <a href="/event/{{ event.key_name}}">{{ event.name }}</a></p>
-                        <iframe width="240" height="180" src="https://www.youtube.com/embed/{{suggestion.youtube_video|yt_start}}" frameborder="0" allowfullscreen></iframe>
+                        {% if suggestion.youtube_video %}
+                            <iframe width="240" height="180" src="https://www.youtube.com/embed/{{suggestion.youtube_video|yt_start}}" frameborder="0" allowfullscreen></iframe>
+                        {% elif suggestion.internet_archive_video %}
+                            <iframe width="240" height="180" src="https://archive.org/embed/{{suggestion.internet_archive_video}}" frameborder="0" allowfullscreen></iframe>
+                        {% endif %}
                     </div>
                     <div class="col-xs-3">
                         <ul>

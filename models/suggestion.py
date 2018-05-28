@@ -81,6 +81,11 @@ class Suggestion(ndb.Model):
         if "youtube_videos" in self.contents:
             return self.contents["youtube_videos"][0]
 
+    @property
+    def internet_archive_video(self):
+        if "internet_archive_videos" in self.contents:
+            return self.contents["internet_archive_videos"][0]
+
     @classmethod
     def render_media_key_name(cls, year, target_model, target_key, foreign_type, foreign_key):
         """

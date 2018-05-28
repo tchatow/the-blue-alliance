@@ -72,7 +72,7 @@ class SuggestionCreator(object):
 
         media_dict = MediaParser.partial_media_dict_from_url(media_url)
         if media_dict is not None:
-            if media_dict['media_type_enum'] != MediaType.YOUTUBE_VIDEO:
+            if media_dict['media_type_enum'] != MediaType.YOUTUBE_VIDEO and media_dict['media_type_enum'] != MediaType.INTERNET_ARCHIVE_VIDEO:
                 return 'bad_url', None
 
             existing_media = Media.get_by_id(Media.render_key_name(media_dict['media_type_enum'], media_dict['foreign_key']))
@@ -184,6 +184,33 @@ class SuggestionCreator(object):
                         target_model="match",
                         )
                     suggestion.contents = {"youtube_videos": [youtube_id]}
+                    suggestion.put()
+                    return 'success'
+                else:
+                    return 'suggestion_exists'
+            else:
+                return 'video_exists'
+        else:
+            return 'bad_url'
+
+    @classmethod
+    def createMatchVideoInternetArchiveSuggestion(cls, author_account_key, archive_id, match_key):
+        if archive_id:
+            match = Match.get_by_id(match_key)
+            if not match:
+                return 'bad_match'
+            if archive_id not in match.internet_archive_videos:
+                year = match_key[:4]
+                suggestion_id = Suggestion.render_media_key_name(year, 'match', match_key, 'internet_archive', archive_id)
+                suggestion = Suggestion.get_by_id(suggestion_id)
+                if not suggestion or suggestion.review_state != Suggestion.REVIEW_PENDING:
+                    suggestion = Suggestion(
+                        id=suggestion_id,
+                        author=author_account_key,
+                        target_key=match_key,
+                        target_model="match",
+                        )
+                    suggestion.contents = {"internet_archive_videos": [archive_id]}
                     suggestion.put()
                     return 'success'
                 else:

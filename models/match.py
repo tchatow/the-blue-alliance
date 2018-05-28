@@ -92,6 +92,7 @@ class Match(ndb.Model):
     post_result_time = ndb.DateTimeProperty()  # UTC time scores were shown to the audience
     youtube_videos = ndb.StringProperty(repeated=True)  # list of Youtube IDs
     tba_videos = ndb.StringProperty(repeated=True)  # list of filetypes a TBA video exists for
+    internet_archive_videos = ndb.StringProperty(repeated=True)
     push_sent = ndb.BooleanProperty()  # has an upcoming match notification been sent for this match? None counts as False
     tiebreak_match_key = ndb.KeyProperty(kind='Match')  # Points to a match that was played to tiebreak this one
 
@@ -241,7 +242,7 @@ class Match(ndb.Model):
 
     @property
     def has_video(self):
-        return (len(self.youtube_videos) + len(self.tba_videos)) > 0
+        return (len(self.youtube_videos) + len(self.tba_videos) + len(self.internet_archive_videos)) > 0
 
     @property
     def details_url(self):
@@ -282,11 +283,20 @@ class Match(ndb.Model):
         return self._youtube_videos
 
     @property
+    def internet_archive_videos_formatted(self):
+        self._internet_archive_videos = []
+        for video in self.internet_archive_videos:
+            self._internet_archive_videos.append(video)
+        return self._internet_archive_videos
+
+    @property
     def videos(self):
         videos = []
         for v in self.youtube_videos_formatted:
             v = v.replace('?start=', '?t=')  # links must use ?t=
             videos.append({"type": "youtube", "key": v})
+        for v in self.internet_archive_videos_formatted:
+            videos.append({"type": "internet-archive", "key": v})
         if self.tba_video is not None:
             tba_path = self.tba_video.streamable_path
             if tba_path is not None:

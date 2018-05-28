@@ -89,6 +89,7 @@ class MediaParser(object):
         ('imgur.com/', MediaType.IMGUR),
         ('grabcad.com/library/', MediaType.GRABCAD),
         ('instagram.com/p/', MediaType.INSTAGRAM_IMAGE),
+        ('archive.org/details', MediaType.INTERNET_ARCHIVE_VIDEO),
 
         # Keep these last, so they don't greedy match over other more specific urls
         ('youtube.com/', MediaType.YOUTUBE_CHANNEL),
